@@ -4,16 +4,18 @@ import styled from 'styled-components';
 
 import logo from '../assets/images/Logo.jpg';
 
-function Main({ setShowHeader }) {
-    setShowHeader(false);
+function Main({ setShowHeaderAndFooter }) {
+    setShowHeaderAndFooter(false);
 
     return(
         <Container>
             <img src={logo} alt="" />
             <form>
-                <input type="text" placeholder="email" />
-                <input type="text" placeholder="senha" />
-                <button type="submit">Entrar</button>
+                <input type="email" placeholder="email" required />
+                <input type="password" placeholder="senha" minLength={6} maxLength={20} required />
+                <Link to={'/habitos'}>
+                    <button type="submit">Entrar</button>
+                </Link>
             </form>
             <Link to={'/register'}>
                 <p>Não tem uma conta? Cadastre-se!</p>
@@ -22,7 +24,7 @@ function Main({ setShowHeader }) {
     );
 }
 
-const Container = styled.div`
+const Container = styled.div`    
     width: 100%;
     height: 90vh;
     
@@ -75,7 +77,6 @@ const Container = styled.div`
     p {
         text-decoration: underline;
         color: #52B6FF;
-        font-family: 'Lexend Deca', sans-serif;
         
         margin-top: 25px;
     }

@@ -3,9 +3,9 @@ import styled from 'styled-components';
 
 import smilinguido from '../assets/images/smilinguido.jpg';
 
-function Header({ showHeader }) {
+function Header({ showHeaderAndFooter }) {
 		return(
-			showHeader ?
+			showHeaderAndFooter ?
 				<Container>
 					<h1>TrackIt</h1>
 					<img src={smilinguido} alt="Foto do usuário" />
@@ -27,9 +27,12 @@ const Container = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
 
 	h1 {
-		font-family: 'Playball', cursive;
+		font-family: 'Playball', cursive !important;
 		font-size: 39px;
 		color: #FFFFFF;
 	}
