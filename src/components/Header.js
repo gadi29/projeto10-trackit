@@ -1,14 +1,14 @@
 import React from "react";
 import styled from 'styled-components';
 
-import smilinguido from '../assets/images/smilinguido.jpg';
-
 function Header() {
-		return(
-			<Container>
-				<h1>TrackIt</h1>
-				<img src={smilinguido} alt="Foto do usuário" />
-			</Container>
+	const user = JSON.parse(localStorage.getItem("user"));
+
+	return(
+		<Container>
+			<h1>TrackIt</h1>
+			<img src={user.image} alt="Foto do usuário" />
+		</Container>
     );
 }
 
@@ -37,6 +37,7 @@ const Container = styled.div`
 	}
 
 	img {
+		background-color: #FFFFFF;
 		border-radius: 98.5px;
 		
 		width: 48px;

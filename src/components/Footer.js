@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from 'styled-components';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
@@ -7,22 +8,28 @@ import 'react-circular-progressbar/dist/styles.css';
 function Footer() {
     return(
         <Container>
-            <h2>Hábitos</h2>
-            <Div>
-                <CircularProgressbar
-                    value={20}
-                    text={'Hoje'} 
-                    background
-                    backgroundPadding={6}
-                    styles={buildStyles({
-                        backgroundColor: "#52B6FF",
-                        textColor: "#FFFFFF",
-                        pathColor: "#FFFFFF",
-                        trailColor: "transparent"
-                    })}
-                />
-            </Div>
-            <h2>Histórico</h2>
+            <Link to="/habitos">
+                <h2>Hábitos</h2>
+            </Link>
+            <Link to="/hoje">
+                <Div>
+                    <CircularProgressbar
+                        value={20}
+                        text={'Hoje'} 
+                        background
+                        backgroundPadding={6}
+                        styles={buildStyles({
+                            backgroundColor: "#52B6FF",
+                            textColor: "#FFFFFF",
+                            pathColor: "#FFFFFF",
+                            trailColor: "transparent"
+                        })}
+                    />
+                </Div>
+            </Link>
+            <Link to="/historico">
+                <h2>Histórico</h2>
+            </Link>
         </Container>
     );
 }
@@ -45,6 +52,7 @@ const Container = styled.div`
     h2 {
         font-size: 18px;
         color: #52B6FF;
+        text-decoration-line: none;
         cursor: pointer;
     }
 `;

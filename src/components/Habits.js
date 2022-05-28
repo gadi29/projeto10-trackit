@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from 'styled-components';
 
+import UserContext from "../contexts/UserContext";
 import Header from "./Header";
 import Footer from "./Footer";
 
 function Habits() {
+    const { user } = useContext(UserContext);
+
     return(
         <>
-            <Header />
+            <Header image={user.image} />
                 <Container></Container>
             <Footer />
         </>

@@ -15,6 +15,14 @@ function Main() {
     const { setUser } = useContext(UserContext);
     const navigate = useNavigate();
 
+    let userStorage = localStorage.getItem("user");
+
+    if (userStorage !== null) {
+        userStorage = JSON.parse(userStorage);
+        setUser(userStorage);
+        navigate('/habitos');
+    }
+
     function handleLogin(e) {
         e.preventDefault();
         setLoading(true);
@@ -22,6 +30,7 @@ function Main() {
         const response = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", {...userLogin});
 
         response.then(r => {
+            localStorage.setItem("user", JSON.stringify(r.data));
             setUser(r.data);
             setLoading(false);
             navigate('/habitos');

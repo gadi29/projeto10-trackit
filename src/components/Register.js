@@ -29,8 +29,8 @@ function Register() {
 			navigate('/');
 		});
         response.catch(r => {
-            setLoading(false);
             alert(`Erro ${r.status}`);
+            setLoading(false);
         })
     }
 

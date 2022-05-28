@@ -10,7 +10,13 @@ import Today from './Today';
 import Record from './Record';
 
 function App() {
-  const [user, setUser] = useState(null);
+  let userStorage = localStorage.getItem("user");
+
+  if (userStorage !== null) {
+    userStorage = JSON.parse(userStorage);
+  }
+
+  const [user, setUser] = useState(userStorage);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
