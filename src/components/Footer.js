@@ -52,7 +52,6 @@ const Container = styled.div`
     h2 {
         font-size: 18px;
         color: #52B6FF;
-        text-decoration-line: none;
         cursor: pointer;
     }
 `;
