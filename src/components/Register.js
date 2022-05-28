@@ -1,20 +1,74 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from 'styled-components';
+import axios from "axios";
 
 import logo from '../assets/images/Logo.jpg';
 
-function Register({ setShowHeaderAndFooter }) {
-    setShowHeaderAndFooter(false);
+function Register() {
+	const navigate = useNavigate();
+
+    const [user, setUser] = useState({
+        email:'',
+        name:'',
+        image:'',
+		password:''
+    });
+
+    function registerUser(e) {
+        e.preventDefault();
+        
+		const response = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up', {...user});
+
+		response.then(() => {
+			navigate('/');
+		});
+    }
+
+	function handleInputChange(e) {
+		setUser({...user, [e.target.name]: e.target.value})
+	}
 
     return (
         <Container>
             <img src={logo} alt="" />
-            <form>
-                <input type="email" placeholder="email" required />
-                <input type="text" placeholder="senha" required />
-                <input type="text" placeholder="nome" required />
-                <input type="url" placeholder="foto" required />
+            <form onSubmit={registerUser}>
+                <input
+					type="email"
+					value={user.email}
+					onChange={handleInputChange}
+					name="email"
+					placeholder="email"
+					required
+				/>
+                <input 
+					type="text"
+					value={user.password}
+					onChange={handleInputChange}
+					name="password"
+					placeholder="senha"
+					minLength={6}
+                    maxLength={20}
+					required
+				/>
+                <input
+					type="text"
+					value={user.name}
+					onChange={handleInputChange}
+					name="name"
+					placeholder="nome"
+					minLength={2}
+                    maxLength={25}
+					required
+				/>
+                <input
+					type="url"
+					value={user.image}
+					onChange={handleInputChange}
+					name="image"
+					placeholder="foto"
+					required
+				/>
                 <button type="submit">Cadastrar</button>
             </form>
             <Link to={'/'}>

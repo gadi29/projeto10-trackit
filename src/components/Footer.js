@@ -4,27 +4,26 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
 import 'react-circular-progressbar/dist/styles.css';
 
-function Footer({ showHeaderAndFooter }) {
+function Footer() {
     return(
-        showHeaderAndFooter ?
-            <Container>
-                <h2>Hábitos</h2>
-                <Div>
-                    <CircularProgressbar
-                        value={20}
-                        text={'Hoje'} 
-                        background
-                        backgroundPadding={6}
-                        styles={buildStyles({
-                            backgroundColor: "#52B6FF",
-                            textColor: "#FFFFFF",
-                            pathColor: "#FFFFFF",
-                            trailColor: "transparent"
-                        })}
-                    />
-                </Div>
-                <h2>Histórico</h2>
-            </Container> : <></>
+        <Container>
+            <h2>Hábitos</h2>
+            <Div>
+                <CircularProgressbar
+                    value={20}
+                    text={'Hoje'} 
+                    background
+                    backgroundPadding={6}
+                    styles={buildStyles({
+                        backgroundColor: "#52B6FF",
+                        textColor: "#FFFFFF",
+                        pathColor: "#FFFFFF",
+                        trailColor: "transparent"
+                    })}
+                />
+            </Div>
+            <h2>Histórico</h2>
+        </Container>
     );
 }
 

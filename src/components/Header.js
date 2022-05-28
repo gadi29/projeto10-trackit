@@ -3,13 +3,12 @@ import styled from 'styled-components';
 
 import smilinguido from '../assets/images/smilinguido.jpg';
 
-function Header({ showHeaderAndFooter }) {
+function Header() {
 		return(
-			showHeaderAndFooter ?
-				<Container>
-					<h1>TrackIt</h1>
-					<img src={smilinguido} alt="Foto do usuário" />
-				</Container> : <></>
+			<Container>
+				<h1>TrackIt</h1>
+				<img src={smilinguido} alt="Foto do usuário" />
+			</Container>
     );
 }
 

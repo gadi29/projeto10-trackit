@@ -1,11 +1,17 @@
 import React from "react";
 import styled from 'styled-components';
 
-function Habits({ setShowHeaderAndFooter }) {
-    setShowHeaderAndFooter(true);
-    
+import Header from "./Header";
+import Footer from "./Footer";
+
+function Habits() {
     return(
-        <Container></Container>
+        <>
+            <Header />
+                <Container></Container>
+            <Footer />
+        </>
+        
     );
 }
 

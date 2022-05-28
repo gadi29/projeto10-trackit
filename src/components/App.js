@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import Header from './Header';
-import Footer from './Footer';
+import UserContext from '../contexts/UserContext';
+
 import Main from './Main';
 import Register from './Register';
 import Habits from './Habits';
@@ -10,20 +10,20 @@ import Today from './Today';
 import Record from './Record';
 
 function App() {
-  const [showHeaderAndFooter, setShowHeaderAndFooter] = useState(false);
+  const [user, setUser] = useState(null);
 
   return (
-    <BrowserRouter>
-      <Header showHeaderAndFooter={showHeaderAndFooter} />
-      <Footer showHeaderAndFooter={showHeaderAndFooter} />
-      <Routes>
-        <Route path='/' element={<Main setShowHeaderAndFooter={setShowHeaderAndFooter} />}/>
-        <Route path='/register' element={<Register setShowHeaderAndFooter={setShowHeaderAndFooter} />} />
-        <Route path='/habitos' element={<Habits setShowHeaderAndFooter={setShowHeaderAndFooter} />} />
-        <Route path='/hoje' element={<Today setShowHeaderAndFooter={setShowHeaderAndFooter} />} />
-        <Route path='/historico' element={<Record setShowHeaderAndFooter={setShowHeaderAndFooter} />} />
-      </Routes>
-    </BrowserRouter>
+    <UserContext.Provider value={{ user, setUser }}>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Main />}/>
+          <Route path='/register' element={<Register />} />
+          <Route path='/habitos' element={<Habits />} />
+          <Route path='/hoje' element={<Today />} />
+          <Route path='/historico' element={<Record />} />
+        </Routes>
+      </BrowserRouter>
+    </UserContext.Provider>
   );
 }
 
