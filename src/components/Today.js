@@ -1,7 +1,15 @@
 import React from "react";
 
-function Today() {
+import Header from "./Header";
+import Footer from "./Footer";
 
+function Today() {
+    return(
+        <>
+        <Header />
+        <Footer />
+        </>
+    );
 }
 
 export default Today;

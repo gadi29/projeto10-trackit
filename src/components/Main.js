@@ -20,8 +20,9 @@ function Main() {
     if (userStorage !== null) {
         userStorage = JSON.parse(userStorage);
         setUser(userStorage);
-        navigate('/habitos');
+        navigate('/hoje');
     }
+
 
     function handleLogin(e) {
         e.preventDefault();
@@ -33,7 +34,7 @@ function Main() {
             localStorage.setItem("user", JSON.stringify(r.data));
             setUser(r.data);
             setLoading(false);
-            navigate('/habitos');
+            navigate('/hoje');
         });
         response.catch(r => {
             alert('Erro! Tente novamente...');

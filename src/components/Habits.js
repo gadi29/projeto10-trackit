@@ -1,19 +1,28 @@
-import React, { useContext, useEffect, useState, useSyncExternalStore } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from 'styled-components';
 import axios from "axios";
 
 import UserContext from "../contexts/UserContext";
+
 import Header from "./Header";
 import Footer from "./Footer";
-import Register from "./Register";
+import Day from "./Day";
 
 function Habits() {
     const { user } = useContext(UserContext);
     const [habits, setHabits] = useState([]);
     const [newHabit, setNewHabit] = useState({name:"", days:[]});
     const [showNewHabitRegister, setShowNewHabitRegister] = useState(false);
-    const selectedDays = [];
-    const weekDays = ["D", "S", "T", "Q", "Q", "S", "S"];
+    const [selectedDays, setSelectedDays] = useState([]);
+    const weekDays = [
+        {name:"D", number:0},
+        {name:"S", number:1},
+        {name:"T", number:2},
+        {name:"Q", number:3},
+        {name:"Q", number:4},
+        {name:"S", number:5},
+        {name:"S", number:6}
+    ];
 
     const config = {
         headers: {
@@ -28,18 +37,50 @@ function Habits() {
         response.catch(r => alert(`Erro ${r.status}`))
     }), []);
 
+    function registerNewHabit(e) {
+        e.preventDefault();
+
+        setNewHabit({...newHabit, days: [...selectedDays]});
+        console.log(newHabit);
+    }
+
     function listHabits() {
 
     }
 
-    function registerNewHabit() {
-        setNewHabit({...newHabit, days: selectedDays});
-        console.log(newHabit);
+    function mountDays() {
+        return weekDays.map(day => {
+            const selected = selectedDays.some(thisDay => thisDay === day.number); 
+            return(
+            <Day 
+                key={day.number}
+                day={day.name}
+                number={day.number}
+                click={(number) => selectDay(number)}
+                selected={selected}
+            />
+        );
+            });
     }
 
-    function handleInputChange(e) {
-		setNewHabit({...newHabit, name: e.target.value})
-	}
+    function selectDay(number) {
+        //console.log(number)
+        const selected = selectedDays.some(thisDay => thisDay === number);
+
+        if(!selected) {
+            setSelectedDays([...selectedDays, number]);
+            
+            //console.log("selecionou")
+            //console.log(selectedDays)
+        } else {
+            const newSelected = selectedDays.filter(thisDay => thisDay !== number);
+            setSelectedDays(newSelected);
+            //console.log("desselecionou")
+            //console.log(selectedDays)
+        }
+    }
+
+    const day = mountDays();
 
     return(
         <Body>
@@ -50,26 +91,20 @@ function Habits() {
                         <button onClick={() => setShowNewHabitRegister(true)}>+</button>
                     </Div>
                     {showNewHabitRegister ? 
-                        <RegisterHabit>
+                        <RegisterHabit onSubmit={registerNewHabit}>
                             <input
                                 type="text"
                                 value={newHabit.name}
-                                onChange={handleInputChange}
+                                onChange={e => setNewHabit({...newHabit, name: e.target.value})}
                                 placeholder="nome do hábito"
                                 required
                             />
                             <Days>
-                                {weekDays.map((day, index) => 
-                                    <button
-                                        key={index}
-                                        value={index}
-                                        onClick={() => selectedDays.push(index)}>{day}
-                                    </button>
-                                )}
+                                {day}
                             </Days>
                             <Buttons>
                                 <Cancel onClick={() => setShowNewHabitRegister(false)}>Cancelar</Cancel>
-                                <Save onClick={registerNewHabit}>Salvar</Save>
+                                <Save type="submit">Salvar</Save>
                             </Buttons>
                         </RegisterHabit>
                     : 
@@ -138,12 +173,11 @@ const Div = styled.div`
     }
 `;
 
-const RegisterHabit = styled.div`
+const RegisterHabit = styled.form`
     background-color: #FFFFFF;
     border-radius: 5px;
 
     width: 340px;
-    height: 180px;
     margin-bottom: 30px;
     padding: 17px;
 
@@ -178,19 +212,6 @@ const Days = styled.div`
 
     display: flex;
     justify-content: flex-start;
-
-    button {
-        background-color: #FFFFFF;
-        border: 1px solid #D5D5D5;
-        border-radius: 5px;
-
-        width: 30px;
-        height: 30px;
-        margin-right: 5px;
-
-        color: #DBDBDB;
-        font-size: 20px;
-    }
 `;
 
 const Buttons = styled.div`
