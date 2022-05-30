@@ -1,11 +1,20 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from 'styled-components';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
+import ProgressContext from "../contexts/ProgressContext";
+
 import 'react-circular-progressbar/dist/styles.css';
 
 function Footer() {
+    const { progress } = useContext(ProgressContext);
+    const [barProgress, setBarProgress] = useState(progress*100);
+    
+    useEffect((() => {
+        setBarProgress(progress*100);
+    }), [progress])
+
     return(
         <Container>
             <Link to="/habitos">
@@ -14,7 +23,7 @@ function Footer() {
             <Link to="/hoje">
                 <Div>
                     <CircularProgressbar
-                        value={20}
+                        value={barProgress}
                         text={'Hoje'} 
                         background
                         backgroundPadding={6}
@@ -54,6 +63,10 @@ const Container = styled.div`
         font-size: 18px;
         color: #52B6FF;
         cursor: pointer;
+    }
+
+    a {
+        text-decoration: none;
     }
 `;
 

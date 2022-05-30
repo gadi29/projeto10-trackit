@@ -24,7 +24,7 @@ function Habits() {
         const response = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", config);
 
         response.then(r => setHabits([...r.data]));
-        response.catch(r => alert(`Erro ${r.status}`));
+        response.catch(r => alert(`Erro ${r.response.status}`));
     }), []);
 
     function listHabits() {
@@ -135,7 +135,7 @@ const ContainerHabit = styled.div`
     background-color: #FFFFFF;
     border-radius: 5px;
 
-    width: 340px !important;
+    width: 340px;
     padding-left: 15px;
     margin-bottom: 10px;
 
