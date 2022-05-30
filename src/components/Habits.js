@@ -6,23 +6,22 @@ import UserContext from "../contexts/UserContext";
 
 import Header from "./Header";
 import Footer from "./Footer";
-import Day from "./Day";
+import Days from "./Days";
 
 function Habits() {
     const { user } = useContext(UserContext);
     const [habits, setHabits] = useState([]);
     const [newHabit, setNewHabit] = useState({name:"", days:[]});
     const [showNewHabitRegister, setShowNewHabitRegister] = useState(false);
-    const [selectedDays, setSelectedDays] = useState([]);
-    const weekDays = [
-        {name:"D", number:0},
-        {name:"S", number:1},
-        {name:"T", number:2},
-        {name:"Q", number:3},
-        {name:"Q", number:4},
-        {name:"S", number:5},
-        {name:"S", number:6}
-    ];
+    const [weekDays, setWeekDays] = useState([
+        {name:"D", number:0, selected: false},
+        {name:"S", number:1, selected: false},
+        {name:"T", number:2, selected: false},
+        {name:"Q", number:3, selected: false},
+        {name:"Q", number:4, selected: false},
+        {name:"S", number:5, selected: false},
+        {name:"S", number:6, selected: false}
+    ]);
 
     const config = {
         headers: {
@@ -34,53 +33,41 @@ function Habits() {
         const response = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", config);
 
         response.then(r => setHabits([...r.data]));
-        response.catch(r => alert(`Erro ${r.status}`))
+        response.catch(r => alert(`Erro ${r.status}`));
     }), []);
 
     function registerNewHabit(e) {
         e.preventDefault();
 
-        setNewHabit({...newHabit, days: [...selectedDays]});
-        console.log(newHabit);
+        const onlySelected = weekDays.filter(thisDay => thisDay.selected);
+        const onlyNumbers = onlySelected.map(thisDay => thisDay.number);
+
+        setNewHabit({...newHabit, days: onlyNumbers});
+        const body = newHabit;
+        console.log(body);
+
+        //const response = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", body, config);
+
+        //response.then(r => setHabits([...habits, r.data]));
+        //response.catch(r => alert(`Erro ${r.status}`));
     }
 
     function listHabits() {
-
-    }
-
-    function mountDays() {
-        return weekDays.map(day => {
-            const selected = selectedDays.some(thisDay => thisDay === day.number); 
+        //console.log(habits);
+        return habits.map(habit => {
             return(
-            <Day 
-                key={day.number}
-                day={day.name}
-                number={day.number}
-                click={(number) => selectDay(number)}
-                selected={selected}
-            />
-        );
-            });
+                <Habit key={habit.id}>
+                    <h3>{habit.name}</h3>
+                    <Days 
+                    weekDays={weekDays}
+                    setWeekDays={setWeekDays}
+                    />
+                </Habit>
+            );
+        });
     }
 
-    function selectDay(number) {
-        //console.log(number)
-        const selected = selectedDays.some(thisDay => thisDay === number);
-
-        if(!selected) {
-            setSelectedDays([...selectedDays, number]);
-            
-            //console.log("selecionou")
-            //console.log(selectedDays)
-        } else {
-            const newSelected = selectedDays.filter(thisDay => thisDay !== number);
-            setSelectedDays(newSelected);
-            //console.log("desselecionou")
-            //console.log(selectedDays)
-        }
-    }
-
-    const day = mountDays();
+    const userHabits = listHabits();
 
     return(
         <Body>
@@ -99,9 +86,10 @@ function Habits() {
                                 placeholder="nome do hábito"
                                 required
                             />
-                            <Days>
-                                {day}
-                            </Days>
+                            <Days 
+                                weekDays={weekDays}
+                                setWeekDays={setWeekDays}
+                            />
                             <Buttons>
                                 <Cancel onClick={() => setShowNewHabitRegister(false)}>Cancelar</Cancel>
                                 <Save type="submit">Salvar</Save>
@@ -110,10 +98,8 @@ function Habits() {
                     : 
                         <></>
                     }
-                    <p>
-                        {habits.length === 0 ? `Você não tem nenhum hábito cadastrado ainda.
-                        Adicione um hábito para começar a trackear!` : {listHabits}}
-                    </p>
+                    {habits.length === 0 ? <p>Você não tem nenhum hábito cadastrado ainda.
+                    Adicione um hábito para começar a trackear!</p> : userHabits}
                 </Container>
             <Footer />
         </Body>
@@ -173,6 +159,22 @@ const Div = styled.div`
     }
 `;
 
+const Habit = styled.div`
+    background-color: #FFFFFF;
+    border-radius: 5px;
+
+    width: 340px;
+    padding-left: 15px;
+
+    h3 {
+        font-size: 20px;
+        color: #666666;
+
+        margin-top: 13px;
+        margin-bottom: 8px;
+    }
+`;
+
 const RegisterHabit = styled.form`
     background-color: #FFFFFF;
     border-radius: 5px;
@@ -204,14 +206,6 @@ const RegisterHabit = styled.form`
             font-size: 20px;
         }
     }
-`;
-
-const Days = styled.div`
-    width: 100%;
-    margin-bottom: 18px;
-
-    display: flex;
-    justify-content: flex-start;
 `;
 
 const Buttons = styled.div`
