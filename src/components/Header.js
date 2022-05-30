@@ -29,6 +29,7 @@ const Container = styled.div`
 	top: 0;
 	left: 0;
 	right: 0;
+	z-index: 1;
 
 	h1 {
 		font-family: 'Playball', cursive !important;

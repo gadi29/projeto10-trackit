@@ -6,23 +6,14 @@ import UserContext from "../contexts/UserContext";
 
 import Header from "./Header";
 import Footer from "./Footer";
-import Days from "./Days";
+import RegisterHabits from "./RegisterHabits";
+import HabitDays from "./HabitDays";
 
 function Habits() {
     const { user } = useContext(UserContext);
     const [habits, setHabits] = useState([]);
-    const [newHabit, setNewHabit] = useState({name:"", days:[]});
     const [showNewHabitRegister, setShowNewHabitRegister] = useState(false);
-    const [weekDays, setWeekDays] = useState([
-        {name:"D", number:0, selected: false},
-        {name:"S", number:1, selected: false},
-        {name:"T", number:2, selected: false},
-        {name:"Q", number:3, selected: false},
-        {name:"Q", number:4, selected: false},
-        {name:"S", number:5, selected: false},
-        {name:"S", number:6, selected: false}
-    ]);
-
+    
     const config = {
         headers: {
             "Authorization": `Bearer ${user.token}`
@@ -36,35 +27,30 @@ function Habits() {
         response.catch(r => alert(`Erro ${r.status}`));
     }), []);
 
-    function registerNewHabit(e) {
-        e.preventDefault();
-
-        const onlySelected = weekDays.filter(thisDay => thisDay.selected);
-        const onlyNumbers = onlySelected.map(thisDay => thisDay.number);
-
-        setNewHabit({...newHabit, days: onlyNumbers});
-        const body = newHabit;
-        console.log(body);
-
-        //const response = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", body, config);
-
-        //response.then(r => setHabits([...habits, r.data]));
-        //response.catch(r => alert(`Erro ${r.status}`));
-    }
-
     function listHabits() {
-        //console.log(habits);
         return habits.map(habit => {
             return(
-                <Habit key={habit.id}>
-                    <h3>{habit.name}</h3>
-                    <Days 
-                    weekDays={weekDays}
-                    setWeekDays={setWeekDays}
-                    />
-                </Habit>
+                <ContainerHabit key={habit.id}>
+                    <Habit>
+                        <h3>{habit.name}</h3>
+                        <HabitDays habit={habit} />
+                    </Habit>
+                    <ion-icon onClick={() => deleteHabit(habit)} name="trash-outline"></ion-icon>
+                </ContainerHabit>
             );
         });
+    }
+
+    function deleteHabit(habit) {
+        
+        if(window.confirm(`Você deseja apagar o hábito "${habit.name}"?`)) {
+            const response = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}`, config);
+            
+            response.then(() => {
+                document.location.reload(true);
+            });
+            response.catch(r => alert(`Erro ${r.response.status}`));
+        }
     }
 
     const userHabits = listHabits();
@@ -78,23 +64,7 @@ function Habits() {
                         <button onClick={() => setShowNewHabitRegister(true)}>+</button>
                     </Div>
                     {showNewHabitRegister ? 
-                        <RegisterHabit onSubmit={registerNewHabit}>
-                            <input
-                                type="text"
-                                value={newHabit.name}
-                                onChange={e => setNewHabit({...newHabit, name: e.target.value})}
-                                placeholder="nome do hábito"
-                                required
-                            />
-                            <Days 
-                                weekDays={weekDays}
-                                setWeekDays={setWeekDays}
-                            />
-                            <Buttons>
-                                <Cancel onClick={() => setShowNewHabitRegister(false)}>Cancelar</Cancel>
-                                <Save type="submit">Salvar</Save>
-                            </Buttons>
-                        </RegisterHabit>
+                        <RegisterHabits config={config} habits={habits} setHabits={setHabits} setShowNewHabitRegister={setShowNewHabitRegister} />
                     : 
                         <></>
                     }
@@ -115,6 +85,8 @@ const Body = styled.div`
 `;
 
 const Container = styled.div`
+    background-color: #F2F2F2;
+    
     width: 100%;
     padding: 92px 0;
 
@@ -159,12 +131,28 @@ const Div = styled.div`
     }
 `;
 
-const Habit = styled.div`
+const ContainerHabit = styled.div`
     background-color: #FFFFFF;
     border-radius: 5px;
 
-    width: 340px;
+    width: 340px !important;
     padding-left: 15px;
+    margin-bottom: 10px;
+
+    position: relative;
+    
+    ion-icon {
+        color: #666666;
+        font-size: 18px;
+        cursor: pointer;
+
+        position: absolute;
+        right: 10px;
+        top: 13px;
+    }
+`;
+
+const Habit = styled.div`
 
     h3 {
         font-size: 20px;
@@ -173,71 +161,6 @@ const Habit = styled.div`
         margin-top: 13px;
         margin-bottom: 8px;
     }
-`;
-
-const RegisterHabit = styled.form`
-    background-color: #FFFFFF;
-    border-radius: 5px;
-
-    width: 340px;
-    margin-bottom: 30px;
-    padding: 17px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    input {
-        background-color: #FFFFFF;
-        border: 1px solid #D5D5D5;
-        border-radius: 5px;
-        outline: none;
-
-        width: 303px;
-        height: 45px;
-        padding: 0 10px;
-        margin-bottom: 8px;
-
-        color: #666666;
-        font-size: 20px;
-
-        &::placeholder {
-            color: #DBDBDB;
-            font-size: 20px;
-        }
-    }
-`;
-
-const Buttons = styled.div`
-    width: 100%;
-    margin-right: 16px;
-
-    display: flex;
-    justify-content: flex-end;
-`;
-
-const Cancel = styled.button`
-    background-color: #FFFFFF;
-    border: none;
-
-    width: 84px;
-    height: 35px;
-    margin-right: 15px;
-
-    color: #52B6FF;
-    font-size: 16px;
-`;
-
-const Save = styled.button`
-    background-color: #52B6FF;
-    border: none;
-    border-radius: 5px;
-
-    width: 84px;
-    height: 35px;
-
-    color: #FFFFFF;
-    font-size: 16px;
 `;
 
 export default Habits;

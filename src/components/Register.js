@@ -29,7 +29,7 @@ function Register() {
 			navigate('/');
 		});
         response.catch(r => {
-            alert(`Erro ${r.status}`);
+            alert(`Erro ${r.response.status}`);
             setLoading(false);
         })
     }
