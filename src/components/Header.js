@@ -49,6 +49,7 @@ const Container = styled.div`
 	img {
 		background-color: #FFFFFF;
 		border-radius: 98.5px;
+		object-fit: cover;
 		
 		width: 48px;
 		height: 48px;
