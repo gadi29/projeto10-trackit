@@ -1,14 +1,23 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import styled from 'styled-components';
 
 function Header() {
 	const user = JSON.parse(localStorage.getItem("user"));
+	let location = useLocation();
+	let path = location.pathname;
 
 	return(
-		<Container>
-			<h1>TrackIt</h1>
-			<img src={user.image} alt="Foto do usuário" />
-		</Container>
+		<>
+		{path !== "/" && path !== "/register" ? 
+			<Container>
+				<h1>TrackIt</h1>
+				<img src={user.image} alt="Foto do usuário" />
+			</Container> 
+		: 
+			<></>
+		}
+		</>
     );
 }
 

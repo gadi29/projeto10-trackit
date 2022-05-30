@@ -13,6 +13,7 @@ function Habits() {
     const { user } = useContext(UserContext);
     const [habits, setHabits] = useState([]);
     const [showNewHabitRegister, setShowNewHabitRegister] = useState(false);
+    const [state, setState] = useState(0);
     
     const config = {
         headers: {
@@ -25,7 +26,7 @@ function Habits() {
 
         response.then(r => setHabits([...r.data]));
         response.catch(r => alert(`Erro ${r.response.status}`));
-    }), []);
+    }), [state]);
 
     function listHabits() {
         return habits.map(habit => {
@@ -47,7 +48,7 @@ function Habits() {
             const response = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}`, config);
             
             response.then(() => {
-                document.location.reload(true);
+                setState(state + 1);
             });
             response.catch(r => alert(`Erro ${r.response.status}`));
         }

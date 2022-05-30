@@ -18,16 +18,16 @@ function Habit(props) {
             const response = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}/check`, [], config);
             
             response.then(r => {
-                setCheck(true);
                 setState(state + 1);
+                setCheck(true);
             });
             response.catch(r => alert(`Erro ${r.response.status}`));
         } else {
             const response = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}/uncheck`, [], config);
         
             response.then(r => {
-                setCheck(false);
                 setState(state + 1);
+                setCheck(false);
             });
             response.catch(r => alert(`Erro ${r.response.status}`));
         }
@@ -87,7 +87,7 @@ function Today() {
     function listHabits() {
         return todayHabits.map(habit => {
             return(
-                <Habit habit={habit} config={config} state={state} setState={setState} />
+                <Habit key={habit.id} habit={habit} config={config} state={state} setState={setState} />
             );
         });
     }

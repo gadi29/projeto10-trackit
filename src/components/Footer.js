@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styled from 'styled-components';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
@@ -8,6 +8,9 @@ import ProgressContext from "../contexts/ProgressContext";
 import 'react-circular-progressbar/dist/styles.css';
 
 function Footer() {
+    let location = useLocation();
+	let path = location.pathname;
+
     const { progress } = useContext(ProgressContext);
     const [barProgress, setBarProgress] = useState(progress*100);
     
@@ -16,30 +19,36 @@ function Footer() {
     }), [progress])
 
     return(
-        <Container>
-            <Link to="/habitos">
-                <h2>Hábitos</h2>
-            </Link>
-            <Link to="/hoje">
-                <Div>
-                    <CircularProgressbar
-                        value={barProgress}
-                        text={'Hoje'} 
-                        background
-                        backgroundPadding={6}
-                        styles={buildStyles({
-                            backgroundColor: "#52B6FF",
-                            textColor: "#FFFFFF",
-                            pathColor: "#FFFFFF",
-                            trailColor: "transparent"
-                        })}
-                    />
-                </Div>
-            </Link>
-            <Link to="/historico">
-                <h2>Histórico</h2>
-            </Link>
-        </Container>
+        <>
+		{path !== "/" && path !== "/register" ?
+            <Container>
+                <Link to="/habitos">
+                    <h2>Hábitos</h2>
+                </Link>
+                <Link to="/hoje">
+                    <Div>
+                        <CircularProgressbar
+                            value={barProgress}
+                            text={'Hoje'} 
+                            background
+                            backgroundPadding={6}
+                            styles={buildStyles({
+                                backgroundColor: "#52B6FF",
+                                textColor: "#FFFFFF",
+                                pathColor: "#FFFFFF",
+                                trailColor: "transparent"
+                            })}
+                        />
+                    </Div>
+                </Link>
+                <Link to="/historico">
+                    <h2>Histórico</h2>
+                </Link>
+            </Container>
+        : 
+            <></>
+        }
+        </>
     );
 }
 
