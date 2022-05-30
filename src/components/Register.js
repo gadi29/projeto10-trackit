@@ -39,61 +39,69 @@ function Register() {
 	}
 
     return (
-        <Container>
-            <img src={logo} alt="" />
-            <form onSubmit={registerUser}>
-                <input
-					type="email"
-					value={user.email}
-					onChange={handleInputChange}
-					name="email"
-					placeholder="email"
-                    disabled={loading}
-					required
-				/>
-                <input 
-					type="text"
-					value={user.password}
-					onChange={handleInputChange}
-					name="password"
-					placeholder="senha"
-					minLength={6}
-                    maxLength={20}
-                    disabled={loading}
-					required
-				/>
-                <input
-					type="text"
-					value={user.name}
-					onChange={handleInputChange}
-					name="name"
-					placeholder="nome"
-					minLength={2}
-                    maxLength={25}
-                    disabled={loading}
-					required
-				/>
-                <input
-					type="url"
-					value={user.image}
-					onChange={handleInputChange}
-					name="image"
-					placeholder="foto"
-                    disabled={loading}
-					required
-				/>
-                <button type="submit" disabled={loading}>{loading ? <ThreeDots color="#FFFFFF" width={64} height={64} /> : "Cadastrar"}</button>
-            </form>
-            <Link to={'/'}>
-                <p>Já tem uma conta? Faça login!</p>
-            </Link>
-        </Container>
+        <Body>
+            <Container>
+                <img src={logo} alt="" />
+                <form onSubmit={registerUser}>
+                    <input
+                        type="email"
+                        value={user.email}
+                        onChange={handleInputChange}
+                        name="email"
+                        placeholder="email"
+                        disabled={loading}
+                        required
+                    />
+                    <input 
+                        type="text"
+                        value={user.password}
+                        onChange={handleInputChange}
+                        name="password"
+                        placeholder="senha"
+                        minLength={6}
+                        maxLength={20}
+                        disabled={loading}
+                        required
+                    />
+                    <input
+                        type="text"
+                        value={user.name}
+                        onChange={handleInputChange}
+                        name="name"
+                        placeholder="nome"
+                        minLength={2}
+                        maxLength={25}
+                        disabled={loading}
+                        required
+                    />
+                    <input
+                        type="url"
+                        value={user.image}
+                        onChange={handleInputChange}
+                        name="image"
+                        placeholder="foto"
+                        disabled={loading}
+                        required
+                    />
+                    <button type="submit" disabled={loading}>{loading ? <ThreeDots color="#FFFFFF" width={64} height={64} /> : "Cadastrar"}</button>
+                </form>
+                <Link to={'/'}>
+                    <p>Já tem uma conta? Faça login!</p>
+                </Link>
+            </Container>
+        </Body>
+        
     );
 }
 
+const Body = styled.body`
+    width: 100%;
+    height: 100vh;
+`;
+
 const Container = styled.div`    
     width: 100%;
-    height: 90vh;
+    height: 100%;
     
     display: flex;
     flex-direction: column;
@@ -133,6 +141,7 @@ const Container = styled.div`
             opacity: ${({ loading }) => loading ? '0.7' : '1'};
             border-radius: 5px;
             border: none;
+            cursor: pointer;
 
             width: 300px;
             height: 45px;

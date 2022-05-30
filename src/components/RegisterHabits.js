@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 
@@ -165,6 +165,7 @@ const Buttons = styled.div`
 const Cancel = styled.button`
     background-color: #FFFFFF;
     border: none;
+    cursor: pointer;
 
     width: 84px;
     height: 35px;
@@ -178,6 +179,7 @@ const Save = styled.button`
     background-color: #52B6FF;
     border: none;
     border-radius: 5px;
+    cursor: pointer;
 
     width: 84px;
     height: 35px;

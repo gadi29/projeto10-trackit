@@ -84,10 +84,7 @@ const Div = styled.div`
     
     width: 91px;
     height: 91px;
-
-    position: absolute;
-    bottom: 8px;
-    left: 38%;
+    margin-bottom: 23px;
 `;
 
 export default Footer;

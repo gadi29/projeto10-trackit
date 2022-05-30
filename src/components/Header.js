@@ -12,8 +12,8 @@ function Header() {
 		{path !== "/" && path !== "/register" ? 
 			<Container>
 				<h1>TrackIt</h1>
-				<img src={user.image} alt="Foto do usuário" />
-			</Container> 
+				<img src={user.image} alt={user.name} />
+			</Container>
 		: 
 			<></>
 		}

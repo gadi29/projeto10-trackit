@@ -43,37 +43,44 @@ function Main() {
     }
 
     return(
-        <Container loading={loading} >
-            <img src={logo} alt="" />
-            <form onSubmit={handleLogin}>
-                <input
-                    type="email"
-                    value={userLogin.email}
-                    onChange={(e) => setUserLogin({...userLogin, email:e.target.value})}
-                    placeholder="email"
-                    disabled={loading}
-                    required
-                />
-                <input
-                    type="password"
-                    value={userLogin.password}
-                    onChange={(e) => setUserLogin({...userLogin, password:e.target.value})}
-                    placeholder="senha"
-                    disabled={loading}
-                    required
-                />
-                <button type="submit" disabled={loading}>{loading ? <ThreeDots color="#FFFFFF" width={64} height={64} /> : "Entrar"}</button>
-            </form>
-            <Link to={'/register'}>
-                <p>Não tem uma conta? Cadastre-se!</p>
-            </Link>
-        </Container>
+        <Body>
+            <Container loading={loading} >
+                <img src={logo} alt="" />
+                <form onSubmit={handleLogin}>
+                    <input
+                        type="email"
+                        value={userLogin.email}
+                        onChange={(e) => setUserLogin({...userLogin, email:e.target.value})}
+                        placeholder="email"
+                        disabled={loading}
+                        required
+                    />
+                    <input
+                        type="password"
+                        value={userLogin.password}
+                        onChange={(e) => setUserLogin({...userLogin, password:e.target.value})}
+                        placeholder="senha"
+                        disabled={loading}
+                        required
+                    />
+                    <button type="submit" disabled={loading}>{loading ? <ThreeDots color="#FFFFFF" width={64} height={64} /> : "Entrar"}</button>
+                </form>
+                <Link to={'/register'}>
+                    <p>Não tem uma conta? Cadastre-se!</p>
+                </Link>
+            </Container>
+        </Body>
     );
 }
 
+const Body = styled.body`
+    width: 100%;
+    height: 100vh;
+`;
+
 const Container = styled.div`    
     width: 100%;
-    height: 90vh;
+    height: 100%;
     
     display: flex;
     flex-direction: column;
@@ -113,6 +120,7 @@ const Container = styled.div`
             opacity: ${({ loading }) => loading ? '0.7' : '1'};
             border-radius: 5px;
             border: none;
+            cursor: pointer;
 
             width: 300px;
             height: 45px;
